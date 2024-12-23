@@ -1,0 +1,7 @@
+export var MessagesStatusEnum;
+(function (MessagesStatusEnum) {
+    MessagesStatusEnum["READ"] = "read";
+    MessagesStatusEnum["SEEN"] = "seen";
+    MessagesStatusEnum["UNREAD"] = "unread";
+    MessagesStatusEnum["UNSEEN"] = "unseen";
+})(MessagesStatusEnum || (MessagesStatusEnum = {}));

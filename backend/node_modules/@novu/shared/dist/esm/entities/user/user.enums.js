@@ -1,0 +1,8 @@
+export var AuthProviderEnum;
+(function (AuthProviderEnum) {
+    AuthProviderEnum["GITHUB"] = "github";
+})(AuthProviderEnum || (AuthProviderEnum = {}));
+export var UserRoleEnum;
+(function (UserRoleEnum) {
+    UserRoleEnum["USER"] = "user";
+})(UserRoleEnum || (UserRoleEnum = {}));

@@ -1,0 +1,4 @@
+export var ResourceEnum;
+(function (ResourceEnum) {
+    ResourceEnum["EVENTS"] = "events";
+})(ResourceEnum || (ResourceEnum = {}));

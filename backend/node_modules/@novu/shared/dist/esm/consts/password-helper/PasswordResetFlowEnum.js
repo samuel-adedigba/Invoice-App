@@ -1,0 +1,5 @@
+export var PasswordResetFlowEnum;
+(function (PasswordResetFlowEnum) {
+    PasswordResetFlowEnum["FORGOT_PASSWORD"] = "FORGOT_PASSWORD";
+    PasswordResetFlowEnum["USER_PROFILE"] = "USER_PROFILE";
+})(PasswordResetFlowEnum || (PasswordResetFlowEnum = {}));

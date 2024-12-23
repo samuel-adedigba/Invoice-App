@@ -1,0 +1,4 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UTM_CAMPAIGN_QUERY_PARAM = void 0;
+exports.UTM_CAMPAIGN_QUERY_PARAM = '?utm_campaign=in-app';

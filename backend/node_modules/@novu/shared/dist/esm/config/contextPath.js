@@ -1,0 +1,27 @@
+export var NovuComponentEnum;
+(function (NovuComponentEnum) {
+    NovuComponentEnum[NovuComponentEnum["WEB"] = 0] = "WEB";
+    NovuComponentEnum[NovuComponentEnum["API"] = 1] = "API";
+    NovuComponentEnum[NovuComponentEnum["WIDGET"] = 2] = "WIDGET";
+    NovuComponentEnum[NovuComponentEnum["WS"] = 3] = "WS";
+    NovuComponentEnum[NovuComponentEnum["INBOUND_MAIL"] = 4] = "INBOUND_MAIL";
+    NovuComponentEnum[NovuComponentEnum["WEBHOOK"] = 5] = "WEBHOOK";
+})(NovuComponentEnum || (NovuComponentEnum = {}));
+export function getContextPath(component) {
+    const env = typeof process !== 'undefined' && (process === null || process === void 0 ? void 0 : process.env) ? process === null || process === void 0 ? void 0 : process.env : window._env_;
+    if (!env)
+        return '';
+    const contextPaths = {
+        [NovuComponentEnum.API]: env.API_CONTEXT_PATH,
+        [NovuComponentEnum.WEB]: env.FRONT_BASE_CONTEXT_PATH,
+        [NovuComponentEnum.WIDGET]: env.WIDGET_CONTEXT_PATH,
+        [NovuComponentEnum.WS]: env.WS_CONTEXT_PATH,
+        [NovuComponentEnum.INBOUND_MAIL]: env.INBOUND_MAIL_CONTEXT_PATH,
+        [NovuComponentEnum.WEBHOOK]: env.WEBHOOK_CONTEXT_PATH,
+    };
+    let contextPath = env.GLOBAL_CONTEXT_PATH ? `${env.GLOBAL_CONTEXT_PATH}/` : '';
+    if (contextPaths[component]) {
+        contextPath += `${contextPaths[component]}/`;
+    }
+    return contextPath;
+}
