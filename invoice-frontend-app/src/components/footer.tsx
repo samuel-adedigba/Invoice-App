@@ -22,11 +22,11 @@ const Footer: React.FC<Props> = ({
         type="text"
         value={values.compliment}
         placeholder="Thanks for the business."
-        //label="Company Name"
         error={error?.compliment}
        onChange={onChange}
       />
-      <Input
+      <p className=" text-sm text-gray-600">
+         <Input
         name="terms"
         type="text"
         value={values.terms}
@@ -35,6 +35,8 @@ const Footer: React.FC<Props> = ({
         error={error?.terms}
        onChange={onChange}
       />
+      </p>
+     
      
 
     </>

@@ -12,8 +12,7 @@ const InvoiceDetails: React.FC<Props> = ({
   return (
     <>
  
-     <div>
-
+     <div> 
     
       <Input
         name="invoiceNumber"
