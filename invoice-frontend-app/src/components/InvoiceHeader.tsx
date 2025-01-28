@@ -12,75 +12,13 @@ const InvoiceHeader: React.FC<Props> = ({
     <>
  
       <img src={values.companyLogo} alt="Company Logo" />
-      {/* <Input
-        name="companyLogo"
-        type="file"
-        value={values.companyLogo}
-        placeholder="Upload company ogo"
-        error={error?.companyLogo}
-       onChange={onChange}
-      /> */}
-      {/* <Input
-        name="companyName"
-        type="text"
-        value={values.companyName}
-        placeholder="Enter company name"
-     //   label="Company Name"
-        error={error?.companyName}
-       onChange={onChange}
-      /> */}
-      {/* <Input
-        name="companyEmail"
-        type="email"
-        value={values.companyEmail}
-        placeholder="Enter company email"
-       // label="Company Email"
-        error={error?.companyEmail}
-       onChange={onChange}
-      /> */}
-     
-      {/* <Input
-        name="companyNumber"
-        type="tel"
-        value={values.companyNumber}
-        placeholder="Enter company phone number"
-      //  label="Company Number"
-        error={error?.companyNumber}
-       onChange={onChange}
-      /> */}
-      {/* <Input
-        name="companyWebsite"
-        type="url"
-        value={values.companyWebsite}
-        placeholder="Enter company website"
-      //  label="Company Website"
-        error={error?.companyWebsite}
-     onChange={onChange}
-      /> */}
-      {/* <Input
-        name="companyAddress"
-        type="text"
-        value={values.companyAddress}
-        placeholder="Enter Company's address"
-      //  label="Company's Address"
-        error={error?.companyAddress}
-      onChange={onChange}
-      /> */}
-      {/* <Input
-        name="streetAddress"
-        type="text"
-        value={values.streetAddress}
-        placeholder="Enter Street's address"
-       // label="Street's Address"
-        error={error?.streetAddress}
-      onChange={onChange}
-      /> */}
-
       
      <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-md">
-  {/* <!-- Left Section: Logo and Name --> */}
+      
   <div className="flex items-center gap-4">
-    {/* <!-- Company Logo --> */}
+ 
+ 
+  
     <div className="text-6xl text-orange-500 font-bold">
    {/* <Input
         name="companyLogo"
@@ -98,7 +36,6 @@ const InvoiceHeader: React.FC<Props> = ({
         type="text"
         value={values.companyName}
         placeholder="Enter company name"
-     //   label="Company Name"
         error={error?.companyName}
        onChange={onChange}
       />

@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { getInvoice } from "../../api";
 
 const PrintInvoice = () => {
+
+  useEffect(()=>{
+    getInvoice()
+  })
   return (
     <>
     <div className=" flex justify-center items-center min-h-screen py-10">
@@ -82,8 +87,8 @@ const PrintInvoice = () => {
           <thead>
             <tr className="border-y-2">
               <th className="text-left py-2">Item Detail</th>
-              <th className="text-left py-2">QTY</th>
-              <th className="text-left py-2">Rate</th>
+              <th className="text-left py-2">Qty</th>
+              <th className="text-left py-2">Price</th>
               <th className="text-left py-2">Amount</th>
             </tr>
           </thead>
