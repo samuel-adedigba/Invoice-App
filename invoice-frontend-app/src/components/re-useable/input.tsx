@@ -62,22 +62,30 @@ const Input: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <div className="mb-4">
-    <label htmlFor={name} className="block text-gray-700 font-medium mb-1">
-      {label}
-    </label>
-    <div>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
-        className="w-full bg-transparent border-none p-0 focus:outline-none focus:ring-0 focus:bg-transparent "
-      />
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      <label
+        htmlFor={name}
+        className="block text-gray-700 font-bold mb-2"
+      >
+        {label}
+      </label>
+      <div className="relative group">
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          onChange={onChange}
+          className={`w-full bg-transparent text-gray-800 font-semibold placeholder-gray-400 border-2 border-transparent rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+          group-hover:border-gray-300 transition-all duration-300`}
+        />
+        {error && (
+          <p className="text-red-500 text-sm mt-2">
+            {error}
+          </p>
+        )}
+      </div>
     </div>
-  </div>
   
   );
 };

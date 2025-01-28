@@ -15,9 +15,10 @@ const RecepientDetails: React.FC<Props> = ({
 
      </div>
       <div>
-        Billed to :
+      <h3 className="text-gray-600 text-base">Billed to</h3>
       </div>
-      <Input
+      <span className="text-lg font-semibold"  >   
+         <Input
         name="recepientName"
         type="text"
         value={values.recepientName}
@@ -26,7 +27,10 @@ const RecepientDetails: React.FC<Props> = ({
         error={error?.recepientName}
        onChange={onChange}
       />
-      <Input
+      </span>
+     
+     <h2   className="text-lg font-semibold" >
+       <Input
         name="recepientEmail"
         type="email"
         value={values.recepientEmail}
@@ -35,6 +39,8 @@ const RecepientDetails: React.FC<Props> = ({
         error={error?.recepientEmail}
        onChange={onChange}
       />
+     </h2>
+     
      
       <Input
         name="recepientNumber"
@@ -63,8 +69,8 @@ const RecepientDetails: React.FC<Props> = ({
         error={error?.recepientStreetAddress}
       onChange={onChange}
       />
-
-<Input
+<h2   className="text-gray-600 text-sm" >
+  <Input
         name="subject"
         type="text"
         value={values.subject}
@@ -73,6 +79,8 @@ const RecepientDetails: React.FC<Props> = ({
         error={error?.subject}
       onChange={onChange}
       />
+</h2>
+
 
     </>
   );

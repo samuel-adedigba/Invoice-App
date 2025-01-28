@@ -1,18 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
 import Home from './components/page/Home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import InvoiceForm from './components/page/paper';
+import PrintInvoice from './components/ui/PrintInvoice';
 
 function App() {
   return (
     <>
-     {/* <div className="flex items-center justify-center min-h-screen bg-gray-100">
-         <img src={logo} className="App-logo" alt="logo" />
-    <h1 className="text-4xl font-bold text-blue-500">
-      Tailwind CSS is working!     
-    </h1>
-    
-  </div> */}
-   <Home />
+   {/* <Home /> */}
+<Router>
+  <Routes>
+  <Route  path='/'  element={<Home />}   />
+   <Route  path='/create-invoice'  element={<InvoiceForm />}   />
+   <Route  path='/print-invoice'  element={<PrintInvoice />}   />
+   
+  </Routes>
+</Router>
+
     </>
    
   );
