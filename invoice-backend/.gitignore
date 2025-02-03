@@ -28,6 +28,8 @@ out/
 .env
 .env.local
 .env.*.local
+.env.development
+.env.production
 invoice-manager-app
 invoice-key
 
