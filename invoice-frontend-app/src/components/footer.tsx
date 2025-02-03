@@ -10,13 +10,6 @@ const Footer: React.FC<Props> = ({
 }) => {
   return (
     <>
- 
-     <div>
-
-     </div>
-      <div>
-        Billed to :
-      </div>
       <Input
         name="compliment"
         type="text"

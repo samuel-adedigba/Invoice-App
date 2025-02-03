@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from "../components/re-useable/input"
 import type {Props} from "../types/function"
+import { useAuth } from '../api/contextApi';
 
 
 const InvoiceHeader: React.FC<Props> = ({
@@ -8,6 +9,7 @@ const InvoiceHeader: React.FC<Props> = ({
   error,
   values,
 }) => {
+  const {user} = useAuth()
   return (
     <>
  
@@ -55,7 +57,7 @@ const InvoiceHeader: React.FC<Props> = ({
        <Input
         name="companyEmail"
         type="email"
-        value={values.companyEmail}
+        value={values.companyEmail=user.email}
         placeholder="Enter company email"
        // label="Company Email"
         error={error?.companyEmail}
@@ -68,7 +70,7 @@ const InvoiceHeader: React.FC<Props> = ({
         type="tel"
         value={values.companyNumber}
         placeholder="Enter company phone number"
-      //  label="Company Number"
+      label="Company Number"
         error={error?.companyNumber}
        onChange={onChange}
       />
@@ -99,9 +101,6 @@ const InvoiceHeader: React.FC<Props> = ({
         error={error?.streetAddress}
       onChange={onChange}
       />
-    </p>
-    <p className="text-sm text-gray-600">
-    TAX ID 00XXXXX1234XXX
     </p>
   </div>
 </div>

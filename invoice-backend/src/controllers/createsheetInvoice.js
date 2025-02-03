@@ -7,14 +7,14 @@ app.use(express.json())
 app.post('/create-invoice',  async(req, res)=>{
     const { 
         companyName, companyEmail, companyNumber , companyWebsite , companyAddress,
-        streetAddress, recipientNumber, recepientName, recepientEmail, recepientAddress, recepientStreetAddress,
-        subject, invoiceNumber, reference, invoiceDate, dueDate, invoiceValue, 
-        items, compliment, terms
+        streetAddress, recepientNumber, recepientName, recepientEmail, recepientAddress,
+        subject, invoiceNumber, reference, invoiceDate, dueDate, 
+        items, compliment, terms, total ,subTotal, discount
     }  = req.body;
     if (
-        !companyName || !companyEmail || !companyNumber || !companyAddress ||
-        !recipientNumber || !recepientName || !recepientEmail || !recepientAddress ||
-        !subject || !invoiceNumber || !invoiceDate || !invoiceValue || !items
+        !companyName || !companyEmail || !companyNumber || !companyAddress 
+        || !recepientName || !recepientEmail || !recepientAddress ||
+        !subject || !invoiceNumber 
       ) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
@@ -23,9 +23,9 @@ app.post('/create-invoice',  async(req, res)=>{
     try {
         await appendInvoice({
             companyName, companyEmail, companyNumber , companyWebsite , companyAddress,
-            streetAddress, recipientNumber, recepientName, recepientEmail, recepientAddress, recepientStreetAddress,
-            subject, invoiceNumber, reference, invoiceDate, dueDate, invoiceValue, 
-            items, compliment, terms
+            streetAddress, recepientNumber, recepientName, recepientEmail, recepientAddress,
+            subject, invoiceNumber, reference, invoiceDate, dueDate, 
+            items, compliment, terms, total ,subTotal, discount
     })
     res.status(201).json({
         message: 'Invoice created successfully'

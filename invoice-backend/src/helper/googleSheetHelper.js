@@ -23,14 +23,13 @@ async function appendInvoice(data) {
         [
             data.id,
             data.companyName, data.companyEmail, data.companyNumber, data.companyWebsite, data.companyAddress,
-            data.streetAddress, data.recipientNumber, data.recepientName, data.recepientEmail, data.recepientAddress, data.recepientStreetAddress,
+            data.streetAddress, data.recipientNumber, data.recepientName, data.recepientEmail, data.recepientAddress,
             data.subject, data.invoiceNumber, data.reference,
             new Date(data.invoiceDate).toISOString(),
             new Date(data.dueDate).toISOString(),
-            data.invoiceValue,
             JSON.stringify(data.items), 
             data.compliment, data.terms,
-           createdDate,
+           data.createdDate,  data.total,data.subTotal, data.discount
           ],
     ]
     await sheets.spreadsheets.values.append({
@@ -52,5 +51,15 @@ async function getInvoiceByEmail(email) {
     const filtered = rows.filter( (row) => row[2]  === email );
     return filtered;
 }
+async function getInvoiceById(invoiceId) {
+    const results = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: 'Sheet1!A2:Z',
+    })
 
-module.exports = { appendInvoice, getInvoiceByEmail }
+    const rows = results.data.values || [] ;
+    const filtered = rows.filter( (row) => row[0]  === invoiceId );
+    return filtered;
+}
+
+module.exports = { appendInvoice, getInvoiceByEmail , getInvoiceById}

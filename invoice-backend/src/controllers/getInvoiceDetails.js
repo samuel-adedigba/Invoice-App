@@ -1,77 +1,86 @@
-const express = require('express')
-const  {getInvoiceByEmail}  = require('../helper/googleSheetHelper')
+const express = require('express');
+const { getInvoiceByEmail, getInvoiceById } = require('../helper/googleSheetHelper');
 
-const app = express()
-app.use(express.json())
-
+const app = express();
+app.use(express.json());
 
 const invoiceLabels = [
-  "invoiceId",
-  "companyName",
-  "companyEmail",
-  "companyNumber",
-  "companyWebsite",
-  "companyAddress",
-  "streetAddress",
-  "recipientNumber",
-  "recipientName",
-  "recipientEmail",
-  "recipientAddress",
-  "recipientStreetAddress",
-  "subject",
-  "invoiceNumber",
-  "reference",
-  "invoiceDate",
-  "dueDate",
-  "invoiceValue",
-  "items",
-  "compliment",
-  "terms",
-  "createdDate",
+  "invoiceId", "companyName", "companyEmail", "companyNumber", "companyWebsite", "companyAddress",
+  "streetAddress", "recepientNumber", "recepientName", "recepientEmail", "recepientAddress",
+   "subject", "invoiceNumber", "reference", "invoiceDate", "dueDate",
+   "items", "compliment", "terms", "createdDate", "total","subTotal", "discount"
 ];
-
-
 
 const transformInvoiceData = (invoiceData) => {
   return invoiceData.map((invoice) => {
     let invoiceObj = {};
-    
+
     invoice.forEach((item, index) => {
-      // Use the index to map the value to the correct label
       invoiceObj[invoiceLabels[index]] = item;
     });
-    
-    // Parse items as an array if it's in stringified JSON format
     if (invoiceObj.items) {
-      invoiceObj.items = JSON.parse(invoiceObj.items);
+      try {
+        invoiceObj.items = JSON.parse(invoiceObj.items);
+      } catch (e) {
+        console.error("Error parsing items:", e);
+        invoiceObj.items = [];
+      }
     }
 
     return invoiceObj;
   });
 };
 
+app.get('/get-invoices', async (req, res) => {
+  const { companyEmail } = req.query;
+  if (!companyEmail) {
+    return res.status(400).json({
+      message: "Make sure you are logged in with your company's email address",
+    });
+  }
 
-app.get( '/get-invoice/:companyEmail', async(req, res)=>{
-      const { companyEmail  } = req.params
-      if(!companyEmail){
-        return res.status(400).json({
-            message: "Make sure you are logged in with your company's email address"
-        })
-      }
+  try {
+    const invoices = await getInvoiceByEmail(companyEmail);
+    const transformedInvoices = transformInvoiceData(invoices);
+    res.status(200).json({
+      message: "Here is the data of your company's invoices",
+      invoices: transformedInvoices,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch invoices",
+      error: error.message,
+    });
+  }
+});
 
-      try {
-         const invoice =await  getInvoiceByEmail( companyEmail)
-         const transformInvoice = transformInvoiceData(invoice);
-      res.status(201).json({
-        message: "Here is the data of your Comapny's account",
-        invoices: transformInvoice
-      })
-      } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch invoices",
-            error: error.message
-        })
-      }
+app.get('/get-invoice/:invoiceId', async (req, res) => {
+  const { invoiceId } = req.params;
+  if (!invoiceId) {
+    return res.status(400).json({
+      message: "Invoice ID is required",
+    });
+  }
 
-} )
+  try {
+    const invoice = await getInvoiceById(invoiceId);
+    if (!invoice || invoice.length === 0) {
+      return res.status(404).json({
+        message: "Invoice not found",
+      });
+    }
+
+    const transformedInvoice = transformInvoiceData(invoice)[0]; 
+    res.status(200).json({
+      message: "Here are the details of your invoice",
+      invoice: transformedInvoice,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch invoice",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = app;

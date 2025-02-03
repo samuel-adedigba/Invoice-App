@@ -44,8 +44,7 @@ const InvoiceModel = new mongoose.Schema({
   createdDate: { type: Date, default: Date.now },
 });
 
-// Index to optimize queries by invoiceNumber
-InvoiceModel.index({ invoiceNumber: 1 });
+
 
 const Invoice = mongoose.model("Invoice", InvoiceModel);
 

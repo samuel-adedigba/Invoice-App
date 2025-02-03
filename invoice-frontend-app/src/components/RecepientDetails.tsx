@@ -40,33 +40,22 @@ const RecepientDetails: React.FC<Props> = ({
        onChange={onChange}
       />
      </h2>
-     
-     
-      <Input
+    <Input
         name="recepientNumber"
         type="tel"
         value={values.recepientNumber}
         placeholder="Enter company phone number"
-        //label="Company Number"
+        label="Recepient's Number"
         error={error?.recepientNumber}
        onChange={onChange}
       />
-      <Input
+      <Input 
         name="recepientAddress"
         type="text"
         value={values.recepientAddress}
-        placeholder="Enter Company's address"
-       // label="Company's Address"
-        error={error?.recepientAddress}
-      onChange={onChange}
-      />
-      <Input 
-        name="recepientStreetAddress"
-        type="text"
-        value={values.recepientStreetAddress}
         placeholder="Enter Street's address"
        // label="Street's Address"
-        error={error?.recepientStreetAddress}
+        error={error?.recepientAddress}
       onChange={onChange}
       />
 <h2   className="text-gray-600 text-sm" >
