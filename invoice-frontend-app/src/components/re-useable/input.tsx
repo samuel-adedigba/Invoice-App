@@ -1,54 +1,13 @@
-// import React from 'react'
-// type    InputProps={
-//     name: string,
-//     type: string,
-//     value: any,
-//    // onChange?: ()=> void ,
-//     placeholder: string ,
-//     error: string ,
-//     label: string
-// }
-
-//  const Input:React.FC<InputProps>=({   name, type, error,value, 
-//   //onChange, 
-//   label,placeholder  }) =>{
-//   return (
-//     <div>
-//     <label   
-//     htmlFor={name}
-
-//     >
-//     {label }
-//     </label>
-//       <input
-//       id={name}
-//       type={type}
-//       name={name}
-//       value={value}
-//      // onChange={onChange}
-//       placeholder={placeholder}
-//        />
-//        <p>
-//          {error }
-//        </p>
-     
-//     </div>
-//   )
-// }
-
-// export default Input
- 
 import React from 'react';
-// import type { Props } from ".../"
-
 type InputFieldProps = {
-  label?: string; // Label for the input
-  type?: string; // Input type (e.g., text, email, etc.)
-  name: string; // Name attribute for the input
-  value: string; // Current value of the input
-  placeholder?: string; // Placeholder text
-  error?: string; // Error message
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Function to handle input change
+  label?: string;
+  type?: string;
+  name: string; 
+  value: string | number; 
+  placeholder?: string; 
+  error?: string; 
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // Function to handle input change
+  className?:string
 };
 
 const Input: React.FC<InputFieldProps> = ({
@@ -59,6 +18,7 @@ const Input: React.FC<InputFieldProps> = ({
   placeholder,
   error,
   onChange,
+  className,
 }) => {
   return (
     <div className="mb-4">

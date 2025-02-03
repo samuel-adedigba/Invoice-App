@@ -4,65 +4,46 @@ import RecepientDetails from "../RecepientDetails";
 import InvoiceDetails from "../InvoiceDetails";
 import Footer from "../footer";
 import InvoiceItem from "../InvoiceItem";
+import { createInvoice } from "../../api";
+import type {invoiceType} from "../../api"
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../api/contextApi";
+import Navbar from "../re-useable/navBar";
 
 const InvoiceForm = () => {
-  const initialFormState = {
+  const navigate = useNavigate()
+  const { user } = useAuth()
+  const [formData, setFormData] = useState<invoiceType>({
     companyName: "",
-    companyEmail: "",
-    companyNumber: "",
-    companyWebsite: "",
-    companyAddress: "",
-    streetAddress: "",
-    recipientNumber: "",
-    recepientName: "",
-    recepientEmail: "",
-    recepientAddress: "",
-    recepientStreetAddress: "",
-    subject: "",
-    invoiceNumber: "",
-    reference: "",
-    invoiceDate: "",
-    dueDate: "",
-    invoiceValue: "",
-    items: [
-      {
-        id: 0,
-        itemName: "",
-        itemDescription: "",
-        quantity: "",
-        price: "",
-        amount: "",
-      },
-    ],
-  };
-  const [formData, setFormData] = useState({
-    companyName: "",
-    companyEmail: "",
-    companyNumber: "",
-    companyWebsite: "",
-    companyAddress: "",
-    streetAddress: "",
-    recipientNumber: "",
-    recepientName: "",
-    recepientEmail: "",
-    recepientAddress: "",
-    recepientStreetAddress: "",
-    subject: "",
-    invoiceNumber: "",
-    reference: "",
-    invoiceDate: "",
-    dueDate: "",
-    invoiceValue: "",
-    items: [
-      {
-        id: 1,
-        itemName: "",
-        itemDescription: "",
-        quantity: "",
-        price: "",
-        amount: "",
-      },
-    ],
+  companyEmail: "",
+  companyNumber: 0,
+  companyWebsite: "",
+  companyAddress: "",
+  streetAddress: "",
+  recepientNumber: 0,
+  recepientName: "", 
+  recepientEmail: "",
+  recepientAddress: "",
+  subject: "",
+  invoiceNumber: "",
+  reference: "",
+  invoiceDate: "",
+  dueDate: "",
+  items: [
+    {
+      id: 1,
+      itemName: "",
+      itemDescription: "",
+      quantity: 0,
+      price: 0,
+      amount: 0,
+    },
+  ],
+  terms: "",
+compliment: "",
+total: 0,
+subTotal: 0,
+discount: 0,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -80,11 +61,10 @@ const InvoiceForm = () => {
     }));
     console.log({ [key]: value });
   };
+ 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validate form data
     const newErrors: Record<string, string> = {};
 
     if (!formData.companyName)
@@ -98,17 +78,22 @@ const InvoiceForm = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-    } else {
+      return
+    } 
+    if(user.email) {
+     createInvoice(formData)
       console.log("Form Submitted:", formData);
-      resetForm();
+      navigate("/dashboard")
+      console.log("email auth", user.email)
+    } else{
+      console.log("login first")
+      navigate("/login")
     }
   };
-  const resetForm = () => {
-    setFormData(initialFormState);
-  };
-
+ 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-8">
+      <Navbar />
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-3xl">
         <form onSubmit={handleSubmit}>
           <h1 className="text-2xl font-semibold text-center mb-6">
@@ -138,8 +123,9 @@ const InvoiceForm = () => {
             onItemsChange={(updatedItems) =>
               handleFormChange("items", updatedItems)
             }
+            onChange={handleOnchange}
+            values={formData}
           />
-
           <Footer onChange={handleOnchange} values={formData} error={errors} />
 
           <button
