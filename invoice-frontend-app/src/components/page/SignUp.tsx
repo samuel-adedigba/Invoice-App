@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { signApi, type auth } from "../../api";
 import Loading from "../re-useable/loading";
 
@@ -34,10 +33,8 @@ const SignUp = () => {
     setLoading(true);
     try {
       await signApi(form);
-      toast.success("Signup successful!");
       navigate("/login");
     } catch (error) {
-      toast.error("Signup failed. Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -45,31 +42,18 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-green-200">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
+      <div className="w-full max-w-xs md:max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
         <div className="p-8 space-y-6">
           <div className="flex justify-center">
-            <div className="w-32 h-32 bg-green-300 rounded-3xl flex items-center justify-center shadow-lg">
-              <svg
-                className="w-20 h-20 text-green-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
+            <div className="w-1/2 h-33 bg-transparent rounded-3xl flex items-center justify-center">
+               <img src="../images/invoice2.png" alt="Illustration" className="rounded-full" />
             </div>
           </div>
           <h2 className="text-3xl font-bold text-center text-gray-800">
             Join Us
           </h2>
           <p className="text-center text-gray-600">
-            Create an account to enjoy all services without ads for free!
+            Create an account to enjoy all services for free!
           </p>
           <form onSubmit={handleSignup} className="space-y-4">
             <div>

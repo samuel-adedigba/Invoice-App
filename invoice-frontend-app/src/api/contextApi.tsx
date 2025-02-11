@@ -5,7 +5,6 @@ import React, {
   useEffect,
 } from "react";
 import { loginApi } from ".";
-import { toast } from "react-toastify";
 
 interface AuthContextType {
   user: any;
@@ -23,7 +22,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
-  //const [invoiceNumber, setInvoiceNumber] = useState<any>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("userData");
@@ -59,16 +57,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.setItem("userData", JSON.stringify(user));
       localStorage.setItem("authToken", token);
   
-      toast.success("Login successful!", {
-        position: "top-right",
-        autoClose: 5000,
-      });
     } catch (error: any) {
       console.error("Login failed:", error.message);
-      toast.error("Invalid email or password", {
-        position: "top-right",
-        autoClose: 5000,
-      });
     }
   };
   
@@ -85,7 +75,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const max = 999999;
     const number = Math.floor(Math.random() * (max - min + 1)) + min;
     const newInvoiceNumber = `INV${number}`;
-    //setInvoiceNumber(newInvoiceNumber); 
     return newInvoiceNumber;
   }
   function generateReference() {
