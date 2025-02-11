@@ -54,7 +54,8 @@ export type invoiceResponse = {
   invoice: invoiceType;
 };
 
-const base_host = "https://invoice-app-9k8g.onrender.com/";
+// const base_host = "https://invoice-app-9k8g.onrender.com/";
+const base_host= "http://localhost:4001/"
 const apiClient = axios.create({
   baseURL: base_host,
   headers: { "Content-Type": "application/json" },
