@@ -42,7 +42,7 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-green-200">
-      <div className="w-full max-w-xs md:max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
+      <div className="w-full max-w-xs md:max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
         <div className="p-8 space-y-6">
           <div className="flex justify-center">
             <div className="w-1/2 h-33 bg-transparent rounded-3xl flex items-center justify-center">

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { base_host_url } from "../config";
 
 export interface auth {
   email: string;
@@ -54,10 +55,8 @@ export type invoiceResponse = {
   invoice: invoiceType;
 };
 
-// const base_host = "https://invoice-app-9k8g.onrender.com/";
-const base_host= "http://localhost:4001/"
 const apiClient = axios.create({
-  baseURL: base_host,
+  baseURL: base_host_url,
   headers: { "Content-Type": "application/json" },
 });
 apiClient.interceptors.request.use(
@@ -76,23 +75,26 @@ apiClient.interceptors.request.use(
 export const getInvoice = async (email: string) => {
   try {
     const response = await apiClient.get<invoicesResponse>(
-      `${base_host}google/get-invoices?companyEmail=${email}`
+      `${base_host_url}google/get-invoices?companyEmail=${email}`
     );
 
     if (!response.data.invoices || response.data.invoices.length === 0) {
       throw new Error("No invoices found");
     }
-
-    console.log("Invoices:", response.data.invoices);
     if(response.status === 200){
       toast.success(response.data.message, {
      position: "top-right",
      autoClose: 5000,
    });
    }
+   else {
+    toast.warning(response.data.message, {
+      position: "top-right",
+      autoClose: 5000,
+    });
+  }
     return response.data.invoices;
   } catch (error: any) {
-    console.error("Invoice fetch error:", error.message);
     toast.error(error.response?.data?.message || "No invoices found", {
       position: "top-right",
       autoClose: 5000,
@@ -105,7 +107,7 @@ export const getInvoice = async (email: string) => {
 export const getInvoiceById = async (invoiceId: string) => {
   try {
     const response = await apiClient.get<invoiceResponse>(
-      `${base_host}google/get-invoice/${invoiceId}`
+      `${base_host_url}google/get-invoice/${invoiceId}`
     );
 
     if (response.status !== 200) {
@@ -115,18 +117,20 @@ export const getInvoiceById = async (invoiceId: string) => {
     if (!response.data.invoice) {
       throw new Error("Invoice data is empty");
     }
-
-    console.log("Fetched Invoice:", response.data.invoice);
     if(response.status === 200){
       toast.success(response.data.message, {
      position: "top-right",
      autoClose: 5000,
    });
    }
-
+   else {
+    toast.warning(response.data.message, {
+      position: "top-right",
+      autoClose: 5000,
+    });
+  }
     return response.data.invoice;
   } catch (error: any) {
-    console.error("Fetch invoice error:", error.message);
     toast.error(
       error.response?.data?.message || "Failed to fetch invoice",
       { position: "top-right", autoClose: 5000 }
@@ -139,7 +143,7 @@ export const getInvoiceById = async (invoiceId: string) => {
 export const createInvoice = async (data: invoiceType) => {
   try {
     const response = await apiClient.post<authResponse>(
-      `${base_host}google/create-invoice`,
+      `${base_host_url}google/create-invoice`,
       data
     );
     if(response.status === 201){
@@ -148,7 +152,12 @@ export const createInvoice = async (data: invoiceType) => {
      autoClose: 5000,
    });
    }
-    console.log(response);
+   else {
+    toast.warning(response.data.message, {
+      position: "top-right",
+      autoClose: 5000,
+    });
+  }
     return response.data;
   } catch (error: any) {
     toast.error(error.response?.data?.message, {
@@ -161,7 +170,7 @@ export const createInvoice = async (data: invoiceType) => {
 export const signApi = async (data: auth) => {
   try {
     const response = await apiClient.post<authResponse>(
-      `${base_host}ast/user/signup`,
+      `${base_host_url}ast/user/signup`,
       data
     );
     if(response.status === 200){
@@ -169,6 +178,12 @@ export const signApi = async (data: auth) => {
       position: "top-right",
       autoClose: 5000,
     });
+    }
+    else {
+      toast.warning(response.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+      });
     }
     return response;
   } catch (error: any) {
@@ -183,7 +198,7 @@ export const signApi = async (data: auth) => {
 export const loginApi = async (data: auth) => {
   try {
     const response = await apiClient.post<authResponse>(
-      `${base_host}ast/user/login`,
+      `${base_host_url}ast/user/login`,
       data
     );
 if(response.status === 200 ){
@@ -191,6 +206,12 @@ if(response.status === 200 ){
       position: "top-right",
       autoClose: 5000,
     });
+}
+else {
+  toast.warning(response.data.message, {
+    position: "top-right",
+    autoClose: 5000,
+  });
 }
   return response;
   } catch (error: any) {

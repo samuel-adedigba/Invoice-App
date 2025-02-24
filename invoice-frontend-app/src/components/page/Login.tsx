@@ -47,7 +47,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-green-200">
-    <div className="w-full  max-w-xs md:max-w-lg bg-white rounded-lg shadow-lg overflow-hidden p-4">
+    <div className="w-full  max-w-xs md:max-w-md bg-white rounded-lg shadow-lg overflow-hidden p-4">
       <div className="flex justify-center pt-6 px-6 ">
         <div className="w-40 h-40 bg-green-300 rounded-full flex items-center justify-center">
           <img src="../images/invoice.png" alt="Illustration" className="rounded-full" />
