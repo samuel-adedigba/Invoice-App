@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { base_host_url } from "../config";
 
+
 export interface auth {
   email: string;
   password: string;
