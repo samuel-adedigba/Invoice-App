@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# Full-Stack Invoice Management Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🚀 Overview
 
-## Available Scripts
+This is a full-stack invoice management application currently under active development with ongoing feature updates. I built both the frontend and backend to strengthen my skills in MERN stack development and gain hands-on experience in building scalable applications.
 
-In the project directory, you can run:
+# 🛠 Tech Stack
 
-### `yarn start`
+1. Frontend:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    - React
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    - TypeScript
 
-### `yarn test`
+     - useContext API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    - Yarn (for package management)
 
-### `yarn build`
+2. Backend:
+     -  Node.js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+     -  MongoDB
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+     -  Mongoose
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    -  Google API
 
-### `yarn eject`
+    -  NPM (for package management)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# 📦 Optimization & Deployment
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-  The frontend bundle is optimized using yarn run build.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+-  The backend is deployed on Render.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+-  The frontend is deployed on Vercel.
 
-## Learn More
+-  The live API is integrated into the main production branch.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-  Both frontend and backend utilize .env files to store secret keys securely.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+# 🌟 Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+ User Authentication: Users can create an account using their business email and a password.
 
-### Analyzing the Bundle Size
+Dashboard Access: After logging in, users are directed to the dashboard.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Invoice Creation: Users can create invoices for their business.
 
-### Making a Progressive Web App
+Invoice List: Users can view a list of all previously created invoices.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Invoice Details: Clicking on an invoice allows users to see its details.
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+# 🔥 Upcoming Features
 
-### Deployment
+Download & Print: Users will be able to download invoices as PDFs or print them directly with a single click.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Advanced Analytics: A comprehensive dashboard will be introduced for better tracking and analysis of invoices.
 
-### `yarn build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 📌 Status
+
+This application is fully functional and ready for use. More features and improvements are on the way, so stay tuned!
+
+
+
+
+ 💡 Contributions & Feedback: If you have suggestions or feature requests, feel free to reach out or contribute to the project!
+

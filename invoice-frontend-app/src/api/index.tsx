@@ -1,7 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { base_host_url } from "../config";
 
 
 export interface auth {
@@ -55,9 +54,9 @@ export type invoiceResponse = {
   message: string;
   invoice: invoiceType;
 };
-
+const API_URL = process.env.REACT_APP_API_URL;
 const apiClient = axios.create({
-  baseURL: base_host_url,
+  baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
 });
 apiClient.interceptors.request.use(
@@ -76,7 +75,7 @@ apiClient.interceptors.request.use(
 export const getInvoice = async (email: string) => {
   try {
     const response = await apiClient.get<invoicesResponse>(
-      `${base_host_url}google/get-invoices?companyEmail=${email}`
+      `google/get-invoices?companyEmail=${email}`
     );
 
     if (!response.data.invoices || response.data.invoices.length === 0) {
@@ -108,7 +107,7 @@ export const getInvoice = async (email: string) => {
 export const getInvoiceById = async (invoiceId: string) => {
   try {
     const response = await apiClient.get<invoiceResponse>(
-      `${base_host_url}google/get-invoice/${invoiceId}`
+      `google/get-invoice/${invoiceId}`
     );
 
     if (response.status !== 200) {
@@ -144,7 +143,7 @@ export const getInvoiceById = async (invoiceId: string) => {
 export const createInvoice = async (data: invoiceType) => {
   try {
     const response = await apiClient.post<authResponse>(
-      `${base_host_url}google/create-invoice`,
+      `google/create-invoice`,
       data
     );
     if(response.status === 201){
@@ -171,7 +170,7 @@ export const createInvoice = async (data: invoiceType) => {
 export const signApi = async (data: auth) => {
   try {
     const response = await apiClient.post<authResponse>(
-      `${base_host_url}ast/user/signup`,
+      `ast/user/signup`,
       data
     );
     if(response.status === 200){
@@ -199,7 +198,7 @@ export const signApi = async (data: auth) => {
 export const loginApi = async (data: auth) => {
   try {
     const response = await apiClient.post<authResponse>(
-      `${base_host_url}ast/user/login`,
+      `ast/user/login`,
       data
     );
 if(response.status === 200 ){
