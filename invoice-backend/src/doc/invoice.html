@@ -139,120 +139,101 @@
       <div class="logo">
         <div class="icon">A</div>
         <div>
-          <h2>Alvish Baldha</h2>
-          <p>www.website.com</p>
-          <p>hello@email.com</p>
-          <p>+91 00000 00000</p>
+          <h2>{{companyName}}</h2>
+          <p>{{companyWebsite}}</p>
+          <p>{{companyEmail}}</p>
+          <p>{{companyNumber}}</p>
         </div>
       </div>
       <div>
         <h2>Business Address</h2>
-        <p>City, State, IN - 000 000</p>
-        <p>TAX ID 00XXXXX1234X0XX</p>
+        <p>{{companyAddress}}</p>
       </div>
     </div>
 
     <!-- Invoice Details Section -->
     <div class="invoice">
-    <div class="invoice-details">
-      <div class="grid">
-        <div class="invoice-bill"  >
-          <h3  >Billed to</h3>
-          <h2>Company Name</h2>
-          <span>Company Address</span>
-          <span>City, Country - 00000</span>
-          <span>+0 (000) 123-4567</span>
-          <h3>Subject</h3>
-          <span>
-            <h2>Design System</h2>
-          </span>
-          
+      <div class="invoice-details">
+        <div class="grid">
+          <div class="invoice-bill">
+            <h3>Billed to</h3>
+            <h2>{{recepientName}}</h2>
+            <span>{{recepientAddress}}</span>
+            <span>{{recepientNumber}}</span>
+            <span>{{recepientEmail}}</span>
+            <h3>Subject</h3>
+            <h2>{{subject}}</h2>
+          </div>
+          <div class="invoice-number">
+            <h3>Invoice Number</h3>
+            <h2>#{{invoiceNumber}}</h2>
+            <h3>Reference</h3>
+            <h2>{{reference}}</h2>
+            <h3>Invoice Date</h3>
+            <h2>{{invoiceDate}}</h2>
+          </div>
+          <div class="invoice-total">
+            <h3>Invoice of (USD)</h3>
+            <h1>${{total}}</h1>
+            <h3>Due Date</h3>
+            <h2>{{dueDate}}</h2>
+          </div>
         </div>
-        <div class="invoice-number" >
-          <h3>Invoice Number</h3>
-          <h2>#AB2324-01</h2>
-          <h3>Reference</h3>
-          <h2>INV-057</h2>
-          <h3>Invoice Date</h3>
-          <h2>01 Aug, 2023</h2>
+      </div>
+
+      <!-- Items Table -->
+      <div class="items-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Item Detail</th>
+              <th>QTY</th>
+              <th>Rate</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each items}}
+            <tr>
+              <td>
+                <span>{{this.name}}</span>
+                <small>{{this.description}}</small>
+              </td>
+              <td>{{this.quantity}}</td>
+              <td>${{this.rate}}</td>
+              <td>${{this.amount}}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Subtotal, Discount, and Total -->
+      <div class="summary">
+        <div class="row">
+          <span>Subtotal</span>
+          <span>${{subTotal}}</span>
         </div>
-        <div class="invoice-total">
-          <h3>Invoice of (USD)</h3>
-          <h1>$4,950.00</h1>
-          <h3>Due Date</h3>
-          <h2>15 Aug, 2023</h2>
+        <div class="row">
+          <span>Discount</span>
+          <span>${{discount}}</span>
         </div>
+        <hr />
+        <div class="row total">
+          <span>Total</span>
+          <span>${{total}}</span>
+        </div>
+      </div>
+
+      <!-- Footer Section -->
+      <div class="footer">
+        <p>{{compliment}}</p>
       </div>
     </div>
 
-    <!-- Items Table -->
-    <div class="items-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Item Detail</th>
-            <th>QTY</th>
-            <th>Rate</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <span>Item Name</span>
-              <small>Item description</small>
-            </td>
-            <td>1</td>
-            <td>$3,000.00</td>
-            <td>$3,000.00</td>
-          </tr>
-          <tr>
-            <td>
-              <span>Item Name 2</span>
-              <small>Item description 2</small>
-            </td>
-            <td>2</td>
-            <td>$2,500.00</td>
-            <td>$2,500.00</td>
-          </tr>
-          <tr>
-            <td>
-              <span>Item Name 3</span>
-              <small>Item description 3</small>
-            </td>
-            <td>3</td>
-            <td>$2,500.00</td>
-            <td>$2,500.00</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Subtotal, Tax, and Total -->
-    <div class="summary">
-      <div class="row">
-        <span>Subtotal</span>
-        <span>$4,500.00</span>
-      </div>
-      <div class="row">
-        <span>Tax (10%)</span>
-        <span>$450.00</span>
-      </div>
-      <hr />
-      <div class="row total">
-        <span>Total</span>
-        <span>$4,950.00</span>
-      </div>
-    </div>
-
-    <!-- Footer Section -->
-    <div class="footer">
-      <p>Thanks for the business.</p>
-    </div>
-</div>
     <!-- Terms Section -->
     <div class="terms">
-      <p>Terms & Conditions: Please pay within 15 days of receiving this invoice.</p>
+      <p>{{terms}}</p>
     </div>
   </div>
 </body>

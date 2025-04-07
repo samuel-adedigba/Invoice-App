@@ -48,6 +48,10 @@ export interface invoiceType {
 }
 export type invoicesResponse = {
   message: string;
+  total_invoice: number;
+  current_page: number;
+  limit: number;
+  total_page: number;
   invoices: invoiceType[] | [];
 };
 export type invoiceResponse = {
@@ -72,37 +76,73 @@ apiClient.interceptors.request.use(
   }
 );
 
-export const getInvoice = async (email: string) => {
+// export const getInvoice = async (email: string) => {
+//   try {
+//     const response = await apiClient.get<invoicesResponse>(
+//       `google/get-invoices?companyEmail=${email}`
+//     );
+
+//     if (!response.data.invoices || response.data.invoices.length === 0) {
+//       throw new Error("No invoices found");
+//     }
+//     if(response.status === 200){
+//       toast.success(response.data.message, {
+//      position: "top-right",
+//      autoClose: 5000,
+//    });
+//    }
+//    else {
+//     toast.warning(response.data.message, {
+//       position: "top-right",
+//       autoClose: 5000,
+//     });
+//   }
+//     return response.data.invoices;
+//   } catch (error: any) {
+//     toast.error(error.response?.data?.message || "No invoices found", {
+//       position: "top-right",
+//       autoClose: 5000,
+//     });
+//     return [];
+//   }
+// };
+export const getInvoice = async (
+  email: string,
+  page = 1,
+  limit = 10
+): Promise<invoicesResponse | null> => {
   try {
     const response = await apiClient.get<invoicesResponse>(
-      `google/get-invoices?companyEmail=${email}`
+      `google/get-invoices?companyEmail=${email}&page=${page}&limit=${limit}`
     );
 
-    if (!response.data.invoices || response.data.invoices.length === 0) {
+    const data = response.data;
+  console.log("data", data)
+    if (!data.invoices || data.invoices.length === 0) {
       throw new Error("No invoices found");
     }
-    if(response.status === 200){
-      toast.success(response.data.message, {
-     position: "top-right",
-     autoClose: 5000,
-   });
-   }
-   else {
-    toast.warning(response.data.message, {
-      position: "top-right",
-      autoClose: 5000,
-    });
-  }
-    return response.data.invoices;
+
+    if (response.status === 200) {
+      toast.success(data.message, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    } else {
+      toast.warning(data.message, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    }
+
+    return data;
   } catch (error: any) {
-    toast.error(error.response?.data?.message || "No invoices found", {
+    toast.error(error.response?.data?.message || "Failed to fetch invoices", {
       position: "top-right",
       autoClose: 5000,
     });
-    return [];
+    return null;
   }
 };
-
 
 export const getInvoiceById = async (invoiceId: string) => {
   try {

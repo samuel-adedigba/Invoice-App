@@ -17,12 +17,13 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "googleapis": "^144.0.0",
-    "html-pdf": "^1.5.0",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.2",
+    "nodemailer": "^6.10.0",
     "pdfkit": "^0.15.2",
+    "puppeteer": "^24.3.0",
     "uuid": "^11.0.3"
   },
   "devDependencies": {

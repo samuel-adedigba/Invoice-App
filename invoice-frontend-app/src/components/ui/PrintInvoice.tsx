@@ -6,6 +6,7 @@ import { useAuth } from "../../api/contextApi";
 import Loading from "../re-useable/loading";
 import Navbar from "../re-useable/navBar";
 import dayjs from "dayjs"
+import InvoiceListTable from "./InvoiceTable";
 
 const PrintInvoice = ({ email }: { email?: string }) => {
   const [invoices, setInvoices] = useState<invoiceType[]>([]);
@@ -21,8 +22,8 @@ const PrintInvoice = ({ email }: { email?: string }) => {
       try {
         if (!user) return;
         if (user.email === email) {
-          const invoiceData = await getInvoice(user.email);
-          setInvoices(Array.isArray(invoiceData) ? invoiceData : []);
+          const invoiceData = await getInvoice(user.email, 1, 10);
+          setInvoices(Array.isArray(invoiceData?.invoices) ? invoiceData.invoices : []);
         } else if (invoiceId) {
           const data = await getInvoiceById(invoiceId);
           setInvoice(data ?? null);
@@ -37,6 +38,7 @@ const PrintInvoice = ({ email }: { email?: string }) => {
   }, [email, invoiceId, user]);
 
   if (loading) return <Loading overlay={true} size={50} />;
+
   
   if (!invoiceId && email) {
     return (
@@ -49,21 +51,22 @@ const PrintInvoice = ({ email }: { email?: string }) => {
         { invoices.length === 0 ? (
           <p className="text-gray-500">No invoice found.</p>
         ) : (
-          <ul className="divide-y ">
-            {invoices.map((inv) => (
-              <li key={inv?.invoiceId} className="py-4 flex justify-between items-center gap-4 flex-col sm:flex-row">
-                <span className="text-gray-700 text-sm sm:text-base font-medium">
-                  Invoice #{inv?.invoiceNumber} - {inv?.recepientName}
-                </span>
-                <button
-                  onClick={() => navigate(`/invoice/${inv?.invoiceId}`)}
-                  className="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg  text-xs sm:text-sm hover:bg-gray-600 transition"
-                >
-                  View Details
-                </button>
-              </li>
-            ))}
-          </ul>
+          // <ul className="divide-y ">
+          //   {invoices.map((inv) => (
+          //     <li key={inv?.invoiceId} className="py-4 flex justify-between items-center gap-4 flex-col sm:flex-row">
+          //       <span className="text-gray-700 text-sm sm:text-base font-medium">
+          //         Invoice #{inv?.invoiceNumber} - {inv?.recepientName}
+          //       </span>
+          //       <button
+          //         onClick={() => navigate(`/invoice/${inv?.invoiceId}`)}
+          //         className="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg  text-xs sm:text-sm hover:bg-gray-600 transition"
+          //       >
+          //         View Details
+          //       </button>
+          //     </li>
+          //   ))}
+          // </ul>        
+          <InvoiceListTable email={email} />
         )}
       </div>
     </div>
