@@ -21,8 +21,6 @@ import {
 import Loading from "./loading";
 
 
-
-// Type for optional server-side fetching.
 export type FetchDataFn<T> = (
   pageIndex: number,
   pageSize: number,
