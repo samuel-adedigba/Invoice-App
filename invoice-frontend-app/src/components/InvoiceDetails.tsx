@@ -33,15 +33,16 @@ const InvoiceDetails: React.FC<Props> = ({ onChange, error, values }) => {
           placeholder="Invoice Number (e.g., INV-123456)"
           error={error?.invoiceNumber}
           onChange={onChange}
+          disabled={true}
         />
-        <div className="mt-4">
+        <div className="my-4">
           <button
             onClick={(e) => {
               e.preventDefault();
               console.log("Generator Clicked!");
               generateAndSetInvoice();
             }}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-[#480437] text-white px-4 py-2 rounded"
           >
             Generate Invoice Number
           </button>
@@ -53,16 +54,17 @@ const InvoiceDetails: React.FC<Props> = ({ onChange, error, values }) => {
           placeholder="Reference (e.g., #AB23231-10)"
           error={error?.reference}
           onChange={onChange}
+          disabled={true}
         />
 
-        <div className="mt-4">
+        <div className="my-4">
           <button
             onClick={(e) => {
               e.preventDefault();
               console.log("Generator Clicked!");
               generateAndSetReference();
             }}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-[#32272B] text-white px-4 py-2 rounded"
           >
             Generate Reference Number
           </button>

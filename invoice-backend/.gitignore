@@ -32,6 +32,7 @@ out/
 .env.production
 invoice-manager-app
 invoice-key
+service-account.json
 
 # Ignore MacOS system files (if you're on a Mac)
 .DS_Store

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../api/contextApi";
 import { useNavigate } from "react-router-dom";
+import { CircleUserRound, CornerUpLeft, LogOut } from "lucide-react";
 
 const Navbar = () => {
   const { user, contextLogout } = useAuth();
@@ -18,14 +19,14 @@ const Navbar = () => {
         onClick={() => navigate(-1)}
         className=" text-gray-700 px-3 py-2 rounded-lg  hover:bg-gray-300 transition-all"
       >
-        ←
+        <CornerUpLeft />
       </button>
       <div className="relative">
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-all"
+          className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md flex gap-2 hover:bg-green-600 transition-all"
         >
-          {user?.email || "User"}
+         <CircleUserRound /> {user?.email || "User"}
         </button>
         {dropdownOpen && (
           <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200">
@@ -34,9 +35,9 @@ const Navbar = () => {
             </div>
             <button
               onClick={handleLogout}
-              className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-100 rounded-b-lg"
+              className="w-full flex gap-3 text-left px-4 py-2 text-red-600 hover:bg-red-100 rounded-b-lg"
             >
-              Logout
+              <LogOut />  Logout
             </button>
           </div>
         )}

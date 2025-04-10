@@ -42,9 +42,8 @@ const InvoiceModel = new mongoose.Schema({
   compliment: { type: String, trim: true, default: "Thank you for your business!" },
   terms: { type: String, trim: true, required: true },
   createdDate: { type: Date, default: Date.now },
+  currency: { type: String, trim: true, required: true },
 });
-
-
 
 const Invoice = mongoose.model("Invoice", InvoiceModel);
 

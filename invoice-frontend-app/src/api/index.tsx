@@ -45,6 +45,7 @@ export interface invoiceType {
   total?: number;
   subTotal?: number;
   discount?: number;
+  currency?: string;
 }
 export type invoicesResponse = {
   message: string;
@@ -59,10 +60,12 @@ export type invoiceResponse = {
   invoice: invoiceType;
 };
 const API_URL = process.env.REACT_APP_API_URL;
+
 const apiClient = axios.create({
   baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
 });
+
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
@@ -76,48 +79,17 @@ apiClient.interceptors.request.use(
   }
 );
 
-// export const getInvoice = async (email: string) => {
-//   try {
-//     const response = await apiClient.get<invoicesResponse>(
-//       `google/get-invoices?companyEmail=${email}`
-//     );
-
-//     if (!response.data.invoices || response.data.invoices.length === 0) {
-//       throw new Error("No invoices found");
-//     }
-//     if(response.status === 200){
-//       toast.success(response.data.message, {
-//      position: "top-right",
-//      autoClose: 5000,
-//    });
-//    }
-//    else {
-//     toast.warning(response.data.message, {
-//       position: "top-right",
-//       autoClose: 5000,
-//     });
-//   }
-//     return response.data.invoices;
-//   } catch (error: any) {
-//     toast.error(error.response?.data?.message || "No invoices found", {
-//       position: "top-right",
-//       autoClose: 5000,
-//     });
-//     return [];
-//   }
-// };
 export const getInvoice = async (
   email: string,
-  page = 1,
-  limit = 10
+  offset = 0,
+  limit = 5
 ): Promise<invoicesResponse | null> => {
   try {
     const response = await apiClient.get<invoicesResponse>(
-      `google/get-invoices?companyEmail=${email}&page=${page}&limit=${limit}`
+     `google/get-invoices?companyEmail=${email}&offset=${offset}&limit=${limit}`
     );
 
     const data = response.data;
-  console.log("data", data)
     if (!data.invoices || data.invoices.length === 0) {
       throw new Error("No invoices found");
     }
@@ -125,12 +97,12 @@ export const getInvoice = async (
     if (response.status === 200) {
       toast.success(data.message, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 3000,
       });
     } else {
       toast.warning(data.message, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 3000,
       });
     }
 
@@ -138,11 +110,12 @@ export const getInvoice = async (
   } catch (error: any) {
     toast.error(error.response?.data?.message || "Failed to fetch invoices", {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
     });
     return null;
   }
 };
+
 
 export const getInvoiceById = async (invoiceId: string) => {
   try {
@@ -160,20 +133,20 @@ export const getInvoiceById = async (invoiceId: string) => {
     if(response.status === 200){
       toast.success(response.data.message, {
      position: "top-right",
-     autoClose: 5000,
+     autoClose: 3000,
    });
    }
    else {
     toast.warning(response.data.message, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
     });
   }
     return response.data.invoice;
   } catch (error: any) {
     toast.error(
       error.response?.data?.message || "Failed to fetch invoice",
-      { position: "top-right", autoClose: 5000 }
+      { position: "top-right", autoClose: 3000 }
     );
     return null;
   }
@@ -186,27 +159,54 @@ export const createInvoice = async (data: invoiceType) => {
       `google/create-invoice`,
       data
     );
-    if(response.status === 201){
-      toast.success(response.data.message, {
-     position: "top-right",
-     autoClose: 5000,
-   });
-   }
-   else {
-    toast.warning(response.data.message, {
-      position: "top-right",
-      autoClose: 5000,
-    });
-  }
     return response.data;
   } catch (error: any) {
-    toast.error(error.response?.data?.message, {
-      position: "top-right",
-      autoClose: 5000,
-    });
+      throw new Error("Failed to create invoice");      
+};
+}
+
+export const getInvoicePdf = async (data: invoiceType) => {
+  try {
+    const response = await apiClient.post(
+      `invoice/generate-pdf`,
+      data,
+      { responseType: "blob" }
+    );
+    return response.data; 
+  } catch (error: any) {
+    throw new Error("Failed to generate PDF");
+    }
+};
+export const previewPdf = async (data: invoiceType) => {
+  try {
+    const response = await apiClient.post(
+      "invoice/preview-html",
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        responseType: "text",
+      }
+    );
+
+    return response.data; 
+  } catch (error: any) {
+    throw error; 
   }
 };
 
+export const mailInvoice = async (data: invoiceType) => {
+  try {
+    const response = await apiClient.post(
+      `invoice/send-invoice`,
+      data
+    );
+    return response.data; 
+  } catch (error: any) {
+    throw new Error("Failed to send invoice");
+  }
+};
 export const signApi = async (data: auth) => {
   try {
     const response = await apiClient.post<authResponse>(
@@ -216,20 +216,20 @@ export const signApi = async (data: auth) => {
     if(response.status === 200){
        toast.success(response.data.message, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
     });
     }
     else {
       toast.warning(response.data.message, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 3000,
       });
     }
     return response;
   } catch (error: any) {
     toast.error(error.response?.data?.message, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
     });
     console.log(error.message);
   }
@@ -244,20 +244,20 @@ export const loginApi = async (data: auth) => {
 if(response.status === 200 ){
     toast.success(response.data.message, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
     });
 }
 else {
   toast.warning(response.data.message, {
     position: "top-right",
-    autoClose: 5000,
+    autoClose: 3000,
   });
 }
   return response;
   } catch (error: any) {
     toast.error(error.response?.data?.message, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
     });
     console.log(error.message);
     return null

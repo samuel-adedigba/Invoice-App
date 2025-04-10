@@ -13,23 +13,18 @@ interface Item {
 interface Props {
   items: Item[];
   onItemsChange: (updatedItems: Item[]) => void;
-  // onTotalsChange: (totals: {
-  //   subtotal: number;
-  //   discount: number;
-  //   total: number;
-  //   currency: string;
-  // }) => void;
-  values: any
-  // onChange({
-  //   target: {
-  //     name: "reference",
-  //     value: reference,
-  //   },
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  values: any;
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }
 
-const InvoiceItem: React.FC<Props> = ({ items, onItemsChange, values, onChange }) => {
-  const [currency, setCurrency] = useState("USD"); 
+const InvoiceItem: React.FC<Props> = ({
+  items,
+  onItemsChange,
+  values,
+  onChange,
+}) => {
   const [discountRate, setDiscountRate] = useState(0);
   const handleAddItem = () => {
     const newItem: Item = {
@@ -38,21 +33,26 @@ const InvoiceItem: React.FC<Props> = ({ items, onItemsChange, values, onChange }
       itemDescription: "",
       quantity: 1,
       price: 0,
-      amount: 1 * 0, 
-    };    
+      amount: 1 * 0,
+    };
     onItemsChange([...items, newItem]);
   };
-  const handleInputChange = (id: number, field: string, value: string | number) => {
+  const handleInputChange = (
+    id: number,
+    field: string,
+    value: string | number
+  ) => {
     const updatedItems = items.map((item) =>
       item.id === id
-        ? { 
-            ...item, 
-            [field]: value, 
-            amount: field === "quantity" 
-              ? Number(value) * item.price 
-              : field === "price"
-              ? item.quantity * Number(value)
-              : item.amount
+        ? {
+            ...item,
+            [field]: value,
+            amount:
+              field === "quantity"
+                ? Number(value) * item.price
+                : field === "price"
+                ? item.quantity * Number(value)
+                : item.amount,
           }
         : item
     );
@@ -72,29 +72,29 @@ const InvoiceItem: React.FC<Props> = ({ items, onItemsChange, values, onChange }
   const discount = calculateDiscount(subTotal);
   const total = calculateTotal(subTotal, discount);
 
-  // useEffect(() => {
-  //   onTotalsChange({ subtotal, discount, total, currency });
-  // }, [subtotal, discount, total, currency, onTotalsChange]);
-
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <label htmlFor="currency" className="mr-2">Currency:</label>
+          <label htmlFor="currency" className="mr-2">
+            Currency:
+          </label>
           <select
-            id="currency"
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
-            className="border px-2 py-1 rounded"
+            name="currency"
+            value={values.currency}
+            onChange={onChange}
+            className="form-select"
           >
-            <option value="USD">USD ($)</option>
-            <option value="EUR">EUR (€)</option>
-            <option value="GBP">GBP (£)</option>
-            <option value="NGN">NGN (₦)</option>
+            <option value="">Select Currency</option>
+            <option value="$">USD ($) </option>
+            <option value="₦">NGN (₦) </option>
+            <option value="€">EUR (£)</option>
           </select>
         </div>
         <div>
-          <label htmlFor="discount" className="mr-2">Discount (%):</label>
+          <label htmlFor="discount" className="mr-2">
+            Discount (%):
+          </label>
           <Input
             name="discount"
             type="number"
@@ -135,7 +135,11 @@ const InvoiceItem: React.FC<Props> = ({ items, onItemsChange, values, onChange }
                     value={item.itemDescription}
                     placeholder="e.g. carton pack"
                     onChange={(e) =>
-                      handleInputChange(item.id, "itemDescription", e.target.value)
+                      handleInputChange(
+                        item.id,
+                        "itemDescription",
+                        e.target.value
+                      )
                     }
                   />
                 </span>
@@ -147,7 +151,11 @@ const InvoiceItem: React.FC<Props> = ({ items, onItemsChange, values, onChange }
                   value={item.quantity}
                   placeholder="e.g. 2"
                   onChange={(e) =>
-                    handleInputChange(item.id, "quantity", Number(e.target.value))
+                    handleInputChange(
+                      item.id,
+                      "quantity",
+                      Number(e.target.value)
+                    )
                   }
                 />
               </td>
@@ -170,61 +178,47 @@ const InvoiceItem: React.FC<Props> = ({ items, onItemsChange, values, onChange }
         </tbody>
       </table>
       <div className="mt-4">
-      <button 
-  onClick={(e) => {
-    e.preventDefault();
-    console.log("Add Item Clicked!");
-    handleAddItem();
-  }} 
-  className="bg-blue-500 text-white px-4 py-2 rounded"
->
-  Add Item
-</button>
-
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleAddItem();
+          }}
+          className="bg-[#58505B] text-white px-4 py-2 rounded"
+        >
+          Add Item
+        </button>
       </div>
       <div className="text-right mt-4 font-semibold text-neutral-600">
         <div className="flex justify-end space-x-28 m-4">
           <span>Subtotal</span>
           <Input
-                  name="subTotal"
-                  type="text"
-                  // value={values.concat(currency).subtotal.toFixed(2)}
-                  value={values.subTotal = subTotal.toFixed(2)}
-                  placeholder="e.g. 2000"
-                  onChange={onChange}
-                />
-          {/* <span>
-            {currency} {subtotal.toFixed(2)}
-          </span> */}
+            name="subTotal"
+            type="text"
+            value={(values.subTotal = subTotal.toFixed(2))}
+            placeholder="e.g. 2000"
+            onChange={onChange}
+          />
         </div>
         <div className="flex justify-end space-x-28 m-5">
           <span>Discount ({discountRate}%)</span>
           <Input
-                  name="discount"
-                  type="text"
-                  // value={values.concat(discount).subtotal.toFixed(2)}
-                  value={values.discount = discount.toFixed(2)}
-                  placeholder="e.g. 2000"
-                  onChange={onChange}
-                />
-          {/* <span>
-            {currency} {discount.toFixed(2)}
-          </span> */}
+            name="discount"
+            type="text"
+            value={(values.discount = discount.toFixed(2))}
+            placeholder="e.g. 2000"
+            onChange={onChange}
+          />
         </div>
         <hr className="my-2" />
         <div className="flex justify-end space-x-28 font-bold text-lg m-6">
           <h1>Total</h1>
           <Input
-                  name="total"
-                  type="text"
-                  // value={values.concat(total).subtotal.toFixed(2)}
-                  value={values.total = total.toFixed(2)}
-                  placeholder="e.g. 2000"
-                  onChange={onChange}
-                />
-          {/* <span>
-            {currency} {total.toFixed(2)}
-          </span> */}
+            name="total"
+            type="text"
+            value={(values.total = total.toFixed(2))}
+            placeholder="e.g. 2000"
+            onChange={onChange}
+          />
         </div>
       </div>
     </div>

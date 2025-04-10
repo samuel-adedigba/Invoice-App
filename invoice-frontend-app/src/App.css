@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Poppins', sans-serif;
 }
 
 .App-logo {
@@ -14,6 +15,7 @@
 }
 
 .App-header {
+  font-family: 'Poppins', sans-serif;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -35,4 +37,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+*{
+  font-family: 'Poppins', sans-serif;
 }

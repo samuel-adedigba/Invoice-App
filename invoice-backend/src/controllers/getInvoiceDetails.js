@@ -1,14 +1,25 @@
 const express = require('express');
 const { getInvoiceByEmail, getInvoiceById } = require('../helper/googleSheetHelper');
+const { format } = require('date-fns');
 
 const app = express();
 app.use(express.json());
+
+
+const formatDate = (dateString) => {
+  try {
+    return format(new Date(dateString), 'd MMMM yyyy'); // 2 June 2025
+  } catch {
+    return dateString;
+  }
+};
+
 
 const invoiceLabels = [
   "invoiceId", "companyName", "companyEmail", "companyNumber", "companyWebsite", "companyAddress",
   "streetAddress", "recepientNumber", "recepientName", "recepientEmail", "recepientAddress",
    "subject", "invoiceNumber", "reference", "invoiceDate", "dueDate",
-   "items", "compliment", "terms", "createdDate", "total","subTotal", "discount"
+   "items", "compliment", "terms", "createdDate", "total","subTotal", "discount","currency"
 ];
 
 const transformInvoiceData = (invoiceData) => {
@@ -18,6 +29,13 @@ const transformInvoiceData = (invoiceData) => {
     invoice.forEach((item, index) => {
       invoiceObj[invoiceLabels[index]] = item;
     });
+
+    ['createdDate', 'invoiceDate', 'dueDate'].forEach((dateField) => {
+      if (invoiceObj[dateField]) {
+        invoiceObj[dateField] = formatDate(invoiceObj[dateField]);
+      }
+    });
+
     if (invoiceObj.items) {
       try {
         invoiceObj.items = JSON.parse(invoiceObj.items);
@@ -31,34 +49,8 @@ const transformInvoiceData = (invoiceData) => {
   });
 };
 
-// app.get('/get-invoices', async (req, res) => {
-//   const { companyEmail } = req.query;
-//   if (!companyEmail) {
-//     return res.status(400).json({
-//       message: "Make sure you are logged in with your company's email address",
-//     });
-//   }
-
-//   try {
-//     const invoices = await getInvoiceByEmail(companyEmail);
-//     const transformedInvoices = transformInvoiceData(invoices);
-//     const totalInvoice = await transformInvoiceData(invoices).length
-//     res.status(200).json({
-//       message: "Here is the data of your company's invoices",
-//        total: totalInvoice,
-//       invoices: transformedInvoices,     
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Failed to fetch invoices",
-//       error: error.message,
-//     });
-//   }
-// });
-
 app.get('/get-invoices', async (req, res) => {
-  const { companyEmail, page = 1, limit = 10, search } = req.query;
-  const offset = (parseInt(page) - 1) * parseInt(limit);
+  const { companyEmail, offset = 0, limit = 10 } = req.query;
 
   if (!companyEmail) {
     return res.status(400).json({
@@ -68,26 +60,28 @@ app.get('/get-invoices', async (req, res) => {
 
   try {
     const invoices = await getInvoiceByEmail(companyEmail);
+    
     invoices.sort((a, b) => {
       const dateA = new Date(a.createdDate);
       const dateB = new Date(b.createdDate);
-      if (dateA !== dateB) return dateA - dateB; 
+      if (dateA - dateB !== 0) return dateA - dateB; 
       return b.invoiceNumber - a.invoiceNumber; 
     });
 
-    const paginatedInvoices = invoices.slice(offset, offset + parseInt(limit));
+    const paginatedInvoices = invoices.slice(
+      parseInt(offset),
+      parseInt(offset) + parseInt(limit)
+    );
 
     const transformedInvoices = transformInvoiceData(paginatedInvoices);
 
     const totalInvoice = invoices.length;
-    const totalPage = Math.ceil(totalInvoice / parseInt(limit));
 
     res.status(200).json({
-     message: "Here is the data of your company's invoices",
+      message: "Here is the data of your company's invoices",
       total_invoice: totalInvoice,
-      current_page: parseInt(page),
+      offset: parseInt(offset),
       limit: parseInt(limit),
-      total_page: totalPage,
       invoices: transformedInvoices,
     });
   } catch (error) {
@@ -97,58 +91,6 @@ app.get('/get-invoices', async (req, res) => {
     });
   }
 });
-
-// app.get('/get-invoices', async (req, res) => {
-//   const { companyEmail, page = 1, limit = 10, search } = req.query;
-//   const offset = (parseInt(page) - 1) * parseInt(limit);
-
-//   if (!companyEmail) {
-//     return res.status(400).json({
-//       message: "Make sure you are logged in with your company's email address",
-//     });
-//   }
-
-//   try {
-//     const searchTerm = search ? search.toString() : '';
-//     const invoices = await getInvoiceByEmail(companyEmail);
-
-//     const filteredInvoice = invoices.filter((invoice) => 
-//       invoice.companyEmail === companyEmail &&
-//       (!searchTerm || invoice.invoiceNumber.toString().includes(searchTerm))
-//    );
-   
-//     console.log("Search Term:", searchTerm);
-//     //console.log("Invoice:", invoices);
-//     const sortedInvoice = filteredInvoice
-//     .sort((a, b) => {
-//       const dateA = new Date(a.createdDate);
-//       const dateB = new Date(b.createdDate);
-//       if (dateA !== dateB) return dateA - dateB; 
-//       return b.invoiceNumber - a.invoiceNumber; 
-//     });
-
-//     const paginatedInvoices = sortedInvoice.slice(offset, offset + parseInt(limit));
-
-//     const transformedInvoices = transformInvoiceData(paginatedInvoices);
-
-//     const totalInvoice = sortedInvoice.length;
-//     const totalPage = Math.ceil(totalInvoice / parseInt(limit));
-
-//     res.status(200).json({
-//       message: "Here is the data of your company's invoices",
-//       total_invoice: totalInvoice,
-//       current_page: parseInt(page),
-//       limit: parseInt(limit),
-//       total_page: totalPage,
-//       invoices: transformedInvoices,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Failed to fetch invoices",
-//       error: error.message,
-//     });
-//   }
-// });
 
 
 app.get('/get-invoice/:invoiceId', async (req, res) => {

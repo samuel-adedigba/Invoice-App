@@ -10,6 +10,11 @@ const sendInvoiceEmail = async (
   recepientName,
   pdfBuffer
 ) => {
+  let attempts = 0;
+  const maxAttempts = 3;
+
+  while (attempts < maxAttempts) {
+    try {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -22,7 +27,7 @@ const sendInvoiceEmail = async (
   const formattedDate = new Date(createdDate).toLocaleString();
   const htmlBody = `
     <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <h1 style="color: #007BFF; font-size: 24px;">Invoice Ready for ${recepientEmail}</h1>
+      <h1 style="color: #007BFF; font-size: 24px;">Invoice is Ready for ${recepientEmail}</h1>
       <p style="font-size: 18px;">Hello ${recepientName},</p>
       <p style="font-size: 16px;">
         Please find your invoice for <b>${formattedDate}</b> attached.
@@ -32,8 +37,8 @@ const sendInvoiceEmail = async (
     </div>
   `;
   const mailOptions = {
-    from: `"From ${companyName}- ${companyEmail}" incorporation with <${process.env.EMAIL}>`,
-    to: `${recepientEmail}`,
+    from: `From ${companyName} - ${companyEmail} <${process.env.EMAIL}>`,
+    to: recepientEmail,
     subject: `${subject} - ${invoiceNumber}`,
     html: htmlBody,
     attachments: [
@@ -41,10 +46,16 @@ const sendInvoiceEmail = async (
         filename: `Invoice-${invoiceNumber}.pdf`,
         content: pdfBuffer,
       },
-    ],
+    ],    
   };
   await transporter.sendMail(mailOptions);
   console.log("Email sent successfully.");
+  return;
+} catch (err) {
+  console.error(`Email attempt ${attempts + 1} failed:`, err);
+  attempts++;
+  if (attempts >= maxAttempts) throw err;
+}}
 };
 
 module.exports = { sendInvoiceEmail };

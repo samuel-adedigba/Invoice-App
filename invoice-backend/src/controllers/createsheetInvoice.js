@@ -9,7 +9,7 @@ app.post('/create-invoice',  async(req, res)=>{
         companyName, companyEmail, companyNumber , companyWebsite , companyAddress,
         streetAddress, recepientNumber, recepientName, recepientEmail, recepientAddress,
         subject, invoiceNumber, reference, invoiceDate, dueDate, 
-        items, compliment, terms, total ,subTotal, discount
+        items, compliment, terms, total ,subTotal, discount, currency
     }  = req.body;
     if (
         !companyName || !companyEmail || !companyNumber || !companyAddress 
@@ -25,7 +25,7 @@ app.post('/create-invoice',  async(req, res)=>{
             companyName, companyEmail, companyNumber , companyWebsite , companyAddress,
             streetAddress, recepientNumber, recepientName, recepientEmail, recepientAddress,
             subject, invoiceNumber, reference, invoiceDate, dueDate, 
-            items, compliment, terms, total ,subTotal, discount
+            items, compliment, terms, total ,subTotal, discount, currency
     })
     res.status(201).json({
         message: 'Invoice created successfully'

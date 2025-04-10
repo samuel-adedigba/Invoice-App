@@ -203,7 +203,7 @@ function DataTableInternal<T>(
               : table.previousPage()
           }
           disabled={fetchData ? pageIndex === 0 : !table.getCanPreviousPage()}
-          className="text-[#1814F3] text-base font-medium disabled:opacity-50"
+          className="text-gray-700 text-base font-bold "
         >
           &lt; Previous
         </button>
@@ -214,10 +214,10 @@ function DataTableInternal<T>(
               fetchData ? setPageIndex(page) : table.setPageIndex(page)
             }
             className={classNames(
-              "px-3 py-1 rounded-lg text-base font-medium",
+              "px-3 rounded-lg text-lg font-semibold",
               page === currentPage
-                ? "bg-[#1814F3] text-white"
-                : "text-[#1814F3] hover:bg-blue-100"
+                ? "bg-transparent text-gray-600 border border-gray-950"
+                : "text-emerald-950 hover:text-gray-600"
             )}
           >
             {page + 1}
@@ -232,7 +232,7 @@ function DataTableInternal<T>(
           disabled={
             fetchData ? pageIndex >= totalPages - 1 : !table.getCanNextPage()
           }
-          className="text-[#1814F3] text-base font-medium disabled:opacity-50"
+          className="text-gray-700 text-base font-bold "
         >
           Next &gt;
         </button>
@@ -255,16 +255,16 @@ function DataTableInternal<T>(
         </div>
       )}
       {/* Table container for horizontal scrolling */}
-      <div className="overflow-auto w-full  scrollbar-hide ">
+      <div className=" w-full overflow-auto scrollbar-hide rounded-lg shadow-md">
       {/* <table className="w-full min-w-[900px] text-left border-collapse"> */}
-      <table className="w-full min-w-[600px]">
-          <thead className="bg-gray-50 ">
+      <table className="w-full min-w-fit border-collapse">
+          <thead className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="border-b">
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-4 py-3 text-[#718EBF] min-w-[200px] whitespace-nowrap uppercase"
+                    className="px-4 py-3 text-lg text-zinc-600 min-w-[200px] whitespace-nowrap uppercase"
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     {header.isPlaceholder
@@ -285,14 +285,14 @@ function DataTableInternal<T>(
             {loading ? (
               <tr>
                 <td colSpan={columns.length} className="text-center py-4">
-                  <Loading  />
+                  <Loading overlay />
                 </td>
               </tr>
             ) : table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="border-t hover:bg-gray-50">
+                <tr key={row.id} className="border-t hover:bg-gray-50 text-center">
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-4 py-3 whitespace-nowrap">
+                    <td key={cell.id} className="px-2 py-2">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}

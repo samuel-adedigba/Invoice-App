@@ -41,7 +41,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-green-200">
+    <div className="h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-green-200">
       <div className="w-full max-w-xs md:max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
         <div className="p-8 space-y-6">
           <div className="flex justify-center">
@@ -84,13 +84,13 @@ const SignUp = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition-all duration-300"
+              className="w-full bg-green-500 text-white font-bold text-lg py-3 rounded-lg hover:bg-green-600 transition-all duration-300"
               disabled={loading}
             >
-              {loading ? <Loading overlay size={24} /> : "Sign up"}
+              {loading ?  <Loading overlay /> : "Sign up"}
             </button>
           </form>
-          <p className="text-center text-gray-600">
+          <p className="text-center text-base text-gray-600">
             Already have an account?{" "}
             <a
               href="/login"

@@ -2,13 +2,23 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const connectDB = require("../src/db");
-const Users = require( "./routes/loginRoute")
-const Invoice = require("./routes/invoiceRoute")
-const createInvoiceRoute = require("./controllers/createsheetInvoice")
-const getInvoice = require("./controllers/getInvoiceDetails")
+const Users = require( "./routes/loginRoute");
+const Invoice = require("./routes/invoiceRoute");
+const createInvoiceRoute = require("./controllers/createsheetInvoice");
+const getInvoice = require("./controllers/getInvoiceDetails");
+const path = require("path");
 
 
-require('dotenv').config();
+// require('dotenv').config();
+// Determine environment from NODE_ENV; default to development if not set
+const env = process.env.NODE_ENV || "development";
+const envFilePath = path.resolve(__dirname, `../.env.${env}`);
+
+// Load environment variables from the correct file
+require("dotenv").config({ path: envFilePath });
+console.log(`Environment: ${env}`);
+console.log(`Loaded environment file: ${envFilePath}`);
+
 app.use(express.json());
 app.use(cors())
 connectDB()

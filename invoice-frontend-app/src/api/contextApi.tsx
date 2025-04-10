@@ -5,6 +5,7 @@ import React, {
   useEffect,
 } from "react";
 import { loginApi } from ".";
+import Loading from "../components/re-useable/loading";
 
 interface AuthContextType {
   user: any;
@@ -22,6 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("userData");
@@ -39,6 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (storedToken) {
       setToken(storedToken);
     }
+    setLoading(false);
   }, []);
 
   const contextLogin = async (data: { email: string; password: string }) => {
@@ -84,7 +87,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const newInvoiceNumber = `ref${number}`;
     return newInvoiceNumber;
   }
-
+  if (loading) {
+    return <div> <Loading overlay /> </div>; 
+  }
   return (
     <AuthContext.Provider
       value={{

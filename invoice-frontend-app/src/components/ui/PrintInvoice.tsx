@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { getInvoice, getInvoiceById } from "../../api";
+import {  getInvoiceById } from "../../api";
 import type { invoiceType } from "../../api";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { useAuth } from "../../api/contextApi";
 import Loading from "../re-useable/loading";
-import Navbar from "../re-useable/navBar";
 import dayjs from "dayjs"
-import InvoiceListTable from "./InvoiceTable";
+import ButtonForm from "../ButtonForm";
 
 const PrintInvoice = ({ email }: { email?: string }) => {
-  const [invoices, setInvoices] = useState<invoiceType[]>([]);
   const [invoice, setInvoice] = useState<invoiceType | null>(null);
   const { invoiceId } = useParams<{ invoiceId: string }>();
   const [loading, setLoading] = useState<boolean>(true);
   const { user } = useAuth();
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         if (!user) return;
-        if (user.email === email) {
-          const invoiceData = await getInvoice(user.email, 1, 10);
-          setInvoices(Array.isArray(invoiceData?.invoices) ? invoiceData.invoices : []);
-        } else if (invoiceId) {
+         if (invoiceId) {
           const data = await getInvoiceById(invoiceId);
           setInvoice(data ?? null);
         }
@@ -37,53 +32,53 @@ const PrintInvoice = ({ email }: { email?: string }) => {
     fetchData();
   }, [email, invoiceId, user]);
 
-  if (loading) return <Loading overlay={true} size={50} />;
+  if (loading) return  <Loading overlay />;
 
   
-  if (!invoiceId && email) {
-    return (
-      <div className="flex flex-col items-center min-h-screen p-4">
-      <Navbar />
-      <div className="bg-gray-50 shadow-xl rounded-xl p-10 w-full max-w-lg sm:max-w-2xl">
-      <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800 ">
-          Invoices for   <span className="text-blue-600">{email}</span>
-        </h2>
-        { invoices.length === 0 ? (
-          <p className="text-gray-500">No invoice found.</p>
-        ) : (
-          // <ul className="divide-y ">
-          //   {invoices.map((inv) => (
-          //     <li key={inv?.invoiceId} className="py-4 flex justify-between items-center gap-4 flex-col sm:flex-row">
-          //       <span className="text-gray-700 text-sm sm:text-base font-medium">
-          //         Invoice #{inv?.invoiceNumber} - {inv?.recepientName}
-          //       </span>
-          //       <button
-          //         onClick={() => navigate(`/invoice/${inv?.invoiceId}`)}
-          //         className="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg  text-xs sm:text-sm hover:bg-gray-600 transition"
-          //       >
-          //         View Details
-          //       </button>
-          //     </li>
-          //   ))}
-          // </ul>        
-          <InvoiceListTable email={email} />
-        )}
-      </div>
-    </div>
-    );
-  }
+  // if (!invoiceId && email) {
+  //   return (
+  //     <div className="flex flex-col items-center min-h-screen p-4">
+  //     <Navbar />
+  //     {/* <div className="bg-gray-50 shadow-xl rounded-xl p-10 w-full max-w-lg sm:max-w-2xl">
+  //     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-800 ">
+  //         Invoices for   <span className="text-blue-600">{email}</span>
+  //       </h2>
+  //       { invoices.length === 0 ? (
+  //         <p className="text-gray-500">No invoice found.</p>
+  //       ) : (
+  //         // <ul className="divide-y ">
+  //         //   {invoices.map((inv) => (
+  //         //     <li key={inv?.invoiceId} className="py-4 flex justify-between items-center gap-4 flex-col sm:flex-row">
+  //         //       <span className="text-gray-700 text-sm sm:text-base font-medium">
+  //         //         Invoice #{inv?.invoiceNumber} - {inv?.recepientName}
+  //         //       </span>
+  //         //       <button
+  //         //         onClick={() => navigate(`/invoice/${inv?.invoiceId}`)}
+  //         //         className="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg  text-xs sm:text-sm hover:bg-gray-600 transition"
+  //         //       >
+  //         //         View Details
+  //         //       </button>
+  //         //     </li>
+  //         //   ))}
+  //         // </ul>        
+         
+  //       )}
+  //     </div> */}
+  //      <InvoiceListTable email={Email} />
+  //   </div>
+  //   );
+  // }
 
   if (invoice) {
     return ( 
 <>
-  <Navbar />
-  <div className="flex justify-center items-center min-h-screen py-10 px-4 mt-8 ">
+  <div className="flex justify-center items-center h-auto overflow-auto scrollbar-hide mb-6 px-4 text-base sm:text-lg ">
     <div
       className="bg-slate-50 shadow-lg rounded-xl p-4 md:p-10"
       style={{
-        width: "100%", // Full width on small screens
-        maxWidth: "794px", // A4 width on larger screens
-        height: "auto", // A4 height
+        width: "100%", 
+        maxWidth: "794px", 
+        height: "auto", 
         overflow: "hidden",
       }}
     >
@@ -141,7 +136,7 @@ const PrintInvoice = ({ email }: { email?: string }) => {
           {/* Invoice Total Section */}
           <div className="text-right">
             <div className="mb-4">
-              <h3 className="text-gray-600 text-sm">Invoice of </h3>
+              <h3 className="text-gray-600 text-base">Invoice of {invoice?.currency} </h3>
               <h1 className="text-2xl md:text-3xl font-bold text-orange-600">
                 {Number(invoice?.total || 0).toLocaleString()}
               </h1>
@@ -185,16 +180,16 @@ const PrintInvoice = ({ email }: { email?: string }) => {
         <div className="text-right mt-4 font-semibold from-neutral-600">
           <div className="flex justify-end space-x-20 md:space-x-28 m-4">
             <span>Subtotal</span>
-            <span>{Number(invoice?.subTotal || 0).toLocaleString()}</span>
+            <span> {invoice?.currency} {Number(invoice?.subTotal || 0).toLocaleString()}</span>
           </div>
           <div className="flex justify-end space-x-20 md:space-x-28 m-5">
-            <span>Tax (0%)</span>
+            <span>Discount (0%)</span>
             <span>{Number(invoice?.discount || 0).toLocaleString()}</span>
           </div>
           <hr className="my-2" />
           <div className="flex justify-end space-x-20 md:space-x-28 font-bold text-lg m-6">
             <h1>Total</h1>
-            <span>{Number(invoice?.total || 0).toLocaleString()}</span>
+            <span> {invoice?.currency} {Number(invoice?.total || 0).toLocaleString()}</span>
           </div>
         </div>
 
@@ -208,9 +203,14 @@ const PrintInvoice = ({ email }: { email?: string }) => {
       <p className="text-sm text-gray-600">{invoice.terms}</p>
     </div>
   </div>
+  <div className="my-2">
+     <ButtonForm data={invoice}  />
+  </div>
+ 
 </>
     );
   }
   return <div className="text-center py-10">No invoice found.</div>;
 };
+
 export default PrintInvoice;

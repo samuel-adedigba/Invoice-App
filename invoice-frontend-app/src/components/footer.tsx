@@ -17,8 +17,14 @@ const Footer: React.FC<Props> = ({
         placeholder="Thanks for the business."
         error={error?.compliment}
        onChange={onChange}
+       suggestions={[
+        "Thanks for the business.",
+        "We appreciate your prompt payment.",
+        "Looking forward to working with you again.",
+      ]}
       />
-      <p className=" text-sm text-gray-600">
+      
+      <div className=" text-sm text-gray-600">
          <Input
         name="terms"
         type="text"
@@ -27,8 +33,13 @@ const Footer: React.FC<Props> = ({
         label="Terms & Conditions"
         error={error?.terms}
        onChange={onChange}
+       suggestions={[
+        "Please pay within 7 days.",
+        "Please pay within 15 days of receiving this invoice.",
+        "Payment is due upon receipt.",
+      ]}
       />
-      </p>
+      </div>
      
      
 

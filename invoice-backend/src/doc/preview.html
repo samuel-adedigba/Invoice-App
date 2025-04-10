@@ -1,191 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <title>Invoice of {{recepientName}} </title>
+  <title>Invoice of John Doe</title>
   <style>
-    @font-face {
-      font-family: 'Inter';
-      src: url('fonts/Inter-Regular.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
     body {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #ffffff;
     }
-
     .invoice-container {
       background: #f4f5f6;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
       padding: 30px;
-      width: 640px;
+      width: 550px;
       height: auto;
       max-width: 100%;
       overflow: hidden;
     }
-
-    .header,
-    .invoice-details,
-    .items-table,
-    .footer,
-    .terms {
+    .header, .invoice-details, .items-table, .footer, .terms {
       margin-bottom: 20px;
     }
-
     .header {
       display: flex;
       justify-content: space-between;
     }
-
     .header .logo {
       display: flex;
       align-items: center;
     }
-
     .logo .icon {
       color: #f97316;
       font-size: 40px;
       font-weight: bold;
       margin-right: 10px;
     }
-
     .header h2 {
       margin: 0;
       font-size: 18px;
       font-weight: 600;
     }
-
     .header p {
       margin: 0;
       font-size: 14px;
     }
-
     .invoice {
       background: #ffffff;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
       padding: 20px;
     }
-
     .invoice-details .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       margin-bottom: 35px;
     }
-
     .invoice-details h3 {
       font-size: 14px;
       color: #6b7280;
       margin-bottom: 5px;
     }
-
     .invoice-details h2 {
       font-size: 16px;
       font-weight: 600;
       margin: 0;
     }
-
     .invoice-total {
       margin-left: auto;
       margin-right: 25px;
     }
-
     .invoice-number {
       align-items: center;
       margin-left: 50px;
     }
-
     .invoice-bill {
       margin-right: auto;
       margin-left: 20px;
-
     }
-
     .invoice-total h1 {
       color: #f97316;
       font-size: 24px;
       font-weight: bold;
-      text-align: left;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
     }
-
     th {
       text-align: left;
       padding: 10px;
       border-bottom: 1px solid #e5e7eb;
       border-top: 1px solid #e5e7eb;
-    }
-
-    th {
       font-size: 14px;
       font-weight: 600;
     }
-
     td span {
       display: block;
     }
-
     .summary {
       text-align: right;
       font-weight: 600;
       margin-top: 20px;
     }
-
     .summary .row {
       display: flex;
       justify-content: flex-end;
       gap: 50px;
       margin-bottom: 10px;
     }
-
     .summary .total {
       font-size: 18px;
       font-weight: bold;
     }
-
     .footer p {
       margin: 0;
     }
-
     .terms {
       font-size: 12px;
       color: #6b7280;
     }
   </style>
 </head>
-
 <body>
   <div class="invoice-container">
     <!-- Header Section -->
     <div class="header">
       <div class="logo">
-        <div class="icon"> </div>
+        <div class="icon">A</div>
         <div>
-          <h2>{{companyName}}</h2>
-          <p>{{companyWebsite}}</p>
-          <p>{{companyEmail}}</p>
-          <p>{{companyNumber}}</p>
+          <h2>Acme Corp</h2>
+          <p>www.acmecorp.com</p>
+          <p>support@acmecorp.com</p>
+          <p>+1-800-123-4567</p>
         </div>
       </div>
       <div>
-        <!-- <h2>Business Address</h2> -->
-        <p>{{companyAddress}}</p>
+        <h2>Business Address</h2>
+        <p>123 Business Road, Suite 456, City, Country</p>
       </div>
     </div>
 
@@ -195,26 +153,26 @@
         <div class="grid">
           <div class="invoice-bill">
             <h3>Billed to</h3>
-            <h2>{{recepientName}}</h2>
-            <span>{{recepientAddress}}</span>
-            <span>{{recepientNumber}}</span>
-            <span>{{recepientEmail}}</span>
+            <h2>John Doe</h2>
+            <span>789 Residential St.</span>
+            <span>+1-555-987-6543</span>
+            <span>john.doe@example.com</span>
             <h3>Subject</h3>
-            <h2>{{subject}}</h2>
+            <h2>Consulting Services</h2>
           </div>
           <div class="invoice-number">
             <h3>Invoice Number</h3>
-            <h2>#{{invoiceNumber}}</h2>
+            <h2>#INV-1001</h2>
             <h3>Reference</h3>
-            <h2>{{reference}}</h2>
+            <h2>REF-2023-001</h2>
             <h3>Invoice Date</h3>
-            <h2>{{invoiceDate}}</h2>
+            <h2>2023-07-15</h2>
           </div>
           <div class="invoice-total">
-            <h3>Invoice of ( {{currency}} )</h3>
-            <h1>{{total}}</h1>
+            <h3>Invoice Amount (USD)</h3>
+            <h1>$1,200.00</h1>
             <h3>Due Date</h3>
-            <h2>{{dueDate}}</h2>
+            <h2>2023-08-15</h2>
           </div>
         </div>
       </div>
@@ -226,22 +184,20 @@
             <tr>
               <th>Item Detail</th>
               <th>QTY</th>
-              <th>Price</th>
+              <th>Rate</th>
               <th>Amount</th>
             </tr>
           </thead>
           <tbody>
-            {{#each items}}
             <tr>
               <td>
-                <span>{{this.name}}</span>
-                <small>{{this.description}}</small>
+                <span>Consulting Fee</span>
+                <small>Project consulting and strategy session</small>
               </td>
-              <td>{{this.quantity}}</td>
-              <td>{{currency}} {{this.price}}</td>
-              <td>{{currency}} {{this.amount}}</td>
+              <td>1</td>
+              <td>$1,200.00</td>
+              <td>$1,200.00</td>
             </tr>
-            {{/each}}
           </tbody>
         </table>
       </div>
@@ -250,30 +206,29 @@
       <div class="summary">
         <div class="row">
           <span>Subtotal</span>
-          <span>{{currency}} {{subTotal}}</span>
+          <span>$1,200.00</span>
         </div>
         <div class="row">
-          <span>Discount (%)</span>
-          <span>{{discount}}</span>
+          <span>Discount</span>
+          <span>$0.00</span>
         </div>
         <hr />
         <div class="row total">
           <span>Total</span>
-          <span>{{currency}} {{total}}</span>
+          <span>$1,200.00</span>
         </div>
       </div>
 
       <!-- Footer Section -->
       <div class="footer">
-        <p>{{compliment}}</p>
+        <p>Thank you for your business!</p>
       </div>
     </div>
 
     <!-- Terms Section -->
     <div class="terms">
-      <p>{{terms}}</p>
+      <p>Payment is due within 30 days. Late payments may be subject to a fee.</p>
     </div>
   </div>
 </body>
-
 </html>
