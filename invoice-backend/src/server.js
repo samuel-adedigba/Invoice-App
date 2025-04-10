@@ -8,13 +8,9 @@ const createInvoiceRoute = require("./controllers/createsheetInvoice");
 const getInvoice = require("./controllers/getInvoiceDetails");
 const path = require("path");
 
-
-// require('dotenv').config();
-// Determine environment from NODE_ENV; default to development if not set
 const env = process.env.NODE_ENV || "development";
 const envFilePath = path.resolve(__dirname, `../.env.${env}`);
 
-// Load environment variables from the correct file
 require("dotenv").config({ path: envFilePath });
 console.log(`Environment: ${env}`);
 console.log(`Loaded environment file: ${envFilePath}`);
@@ -27,7 +23,6 @@ connectDB()
 })
 .catch((err) => {
     console.error("Failed to initialize database connection:", err.message);
-   // process.exit(1); 
 });
 
 app.get("/ast", (req,res)=>{
